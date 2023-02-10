@@ -1,22 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
-import styled from 'styled-components';
+import {
+  StyledApp,
+  StyledMain,
+  StyledSection,
+  StyledContainer,
+} from './AppTemplate.styled';
 import Nav from './Nav/Nav';
 import Footer from './Footer/Footer';
-
-const StyledApp = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const StyledMain = styled.main`
-  flex-grow: 1;
-`;
-
-const StyledSection = styled.section`
-  padding: 30px 30px;
-`;
 
 function AppTemplate() {
   return (
@@ -25,17 +16,19 @@ function AppTemplate() {
         <Nav />
       </header>
       <StyledMain>
-        <StyledSection>
-          <Suspense
-            fallback={
-              <div>
-                <p>Loading...</p>
-              </div>
-            }
-          >
-            <Outlet />
-          </Suspense>
-        </StyledSection>
+        <StyledContainer>
+          <StyledSection>
+            <Suspense
+              fallback={
+                <div>
+                  <p>Loading...</p>
+                </div>
+              }
+            >
+              <Outlet />
+            </Suspense>
+          </StyledSection>
+        </StyledContainer>
       </StyledMain>
       <Footer />
     </StyledApp>
