@@ -25,7 +25,7 @@ function MovieDetails() {
   const [MovieUserScore, setMovieUserScore] = useState('');
 
   // const backLinkHref = location.state?.from ?? '/movies';
-  const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = location.state?.from ?? location.state;
   console.log('backLinkHref', backLinkHref);
 
   // const releaseDate = movieDetails.release_date;
