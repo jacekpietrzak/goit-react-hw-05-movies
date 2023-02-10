@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getMovieCreditsById } from 'Services/Api';
 import { StyledUl, StyledCastThumb } from './Cast.styled';
 import { StyledSection } from 'components/AppTemplate/AppTemplate.styled';
@@ -23,6 +23,7 @@ function Cast() {
 
   useEffect(() => {
     loadMovieCredits();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

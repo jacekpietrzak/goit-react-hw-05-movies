@@ -41,6 +41,7 @@ function Movies() {
     if (movieName !== null) {
       loadMovie();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

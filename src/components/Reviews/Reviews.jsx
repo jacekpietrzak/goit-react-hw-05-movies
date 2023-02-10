@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getMovieReviewsById } from 'Services/Api';
 import { StyledUl, StyledLi } from './Reviews.styled';
 import { StyledSection } from 'components/AppTemplate/AppTemplate.styled';
@@ -23,6 +23,7 @@ function Reviews() {
 
   useEffect(() => {
     loadMovieReviews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
