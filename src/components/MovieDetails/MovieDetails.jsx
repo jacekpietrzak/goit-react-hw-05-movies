@@ -1,5 +1,5 @@
 import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { getMovieById } from 'Services/Api';
 import {
   StyledMovieThumb,
@@ -25,8 +25,14 @@ function MovieDetails() {
   const [MovieUserScore, setMovieUserScore] = useState('');
 
   // const backLinkHref = location.state?.from ?? '/movies';
-  const backLinkHref = location.state?.from ?? location.state;
-  console.log('backLinkHref', backLinkHref);
+  // console.log('backLinkHref', backLinkHref);
+
+  const [backLinkHref, setBackLinkHref] = useState('');
+
+  useEffect(() => {
+    console.log('setBackLinkHref');
+    setBackLinkHref(location.state?.from ?? '/');
+  }, [movieId]);
 
   // const releaseDate = movieDetails.release_date;
   // // const releaseDateYear = releaseDate.substring(0, 4);
@@ -40,7 +46,12 @@ function MovieDetails() {
       setMovieTitle(response.title);
       setMovieOverview(response.overview);
       setMovieGenres(response.genres);
-      setMoviePoster(`https://image.tmdb.org/t/p/w500/${response.poster_path}`);
+      setMoviePoster(
+        `https://image.tmdb.org/t/p/w500/${response.poster_path}` ===
+          'https://image.tmdb.org/t/p/w500/null'
+          ? 'https://via.placeholder.com/150'
+          : `https://image.tmdb.org/t/p/w500/${response.poster_path}`
+      );
       setMovieUserScore(response.vote_average);
     } catch (error) {
     } finally {
@@ -89,20 +100,24 @@ function MovieDetails() {
             <p>Additional information</p>
             <StyledList>
               <li>
-                <Link to="cast" state={{ from: location }}>
-                  Cast
-                </Link>
+                <Link to="cast">Cast</Link>
               </li>
               <li>
-                <Link to="reviews" state={{ from: location }}>
-                  Reviews
-                </Link>
+                <Link to="reviews">Reviews</Link>
               </li>
             </StyledList>
           </StyledInfo>
           <hr />
           <section>
-            <Outlet />
+            <Suspense
+              fallback={
+                <div>
+                  <p>Loading subpage...</p>
+                </div>
+              }
+            >
+              <Outlet />
+            </Suspense>
           </section>
         </>
       )}

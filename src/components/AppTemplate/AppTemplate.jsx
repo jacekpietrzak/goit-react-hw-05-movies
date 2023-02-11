@@ -21,7 +21,7 @@ function AppTemplate() {
             <Suspense
               fallback={
                 <div>
-                  <p>Loading...</p>
+                  <p>Loading page...</p>
                 </div>
               }
             >
