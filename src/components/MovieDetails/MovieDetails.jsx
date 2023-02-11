@@ -65,7 +65,7 @@ function MovieDetails() {
             moviePoster={moviePoster}
             movieTitle={movieTitle}
             movieReleaseDate={movieReleaseDate}
-            MovieUserScore={MovieUserScore}
+            MovieUserScore={Math.round(MovieUserScore * 10)}
             movieOverview={movieOverview}
             movieGenres={movieGenres}
           />

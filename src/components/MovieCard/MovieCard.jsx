@@ -38,9 +38,9 @@ function MovieCard({
       <StyledMovieThumb src={moviePoster} alt={movieTitle} />
       <StyledMovieDetails>
         <h2>
-          {movieTitle} ({movieReleaseDate})
+          {movieTitle} ({movieReleaseDate.slice(0, 4)})
         </h2>
-        <p>User Score: {MovieUserScore}</p>
+        <p>User Score: {MovieUserScore}%</p>
         <div>
           <h3>Overview</h3>
           <p>{movieOverview}</p>
