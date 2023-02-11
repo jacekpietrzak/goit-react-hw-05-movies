@@ -32,6 +32,7 @@ function MovieDetails() {
   useEffect(() => {
     console.log('setBackLinkHref');
     setBackLinkHref(location.state?.from ?? '/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieId]);
 
   // const releaseDate = movieDetails.release_date;
