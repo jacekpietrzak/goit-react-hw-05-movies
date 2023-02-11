@@ -1,20 +1,14 @@
 import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
 import { useState, useEffect, Suspense } from 'react';
 import { getMovieById } from 'Services/Api';
-import {
-  StyledMovieThumb,
-  StyledMovieCard,
-  StyledMovieDetails,
-  StyledGenresList,
-  StyledList,
-  StyledInfo,
-} from './MovieDetails.styled';
+
+import MovieCard from 'components/MovieCard/MovieCard';
+import AdditionalInfo from 'components/AdditionalInfo/AdditionalInfo';
+import Loading from 'components/Loading/Loading';
 
 function MovieDetails() {
   const { movieId } = useParams();
   const location = useLocation();
-
-  console.log('Location:', location);
 
   const [isLoading, setIsLoading] = useState(false);
   const [movieReleaseDate, setMovieReleaseDate] = useState('');
@@ -22,27 +16,19 @@ function MovieDetails() {
   const [movieOverview, setMovieOverview] = useState('');
   const [movieGenres, setMovieGenres] = useState([]);
   const [moviePoster, setMoviePoster] = useState('');
-  const [MovieUserScore, setMovieUserScore] = useState('');
-
-  // const backLinkHref = location.state?.from ?? '/movies';
-  // console.log('backLinkHref', backLinkHref);
+  const [MovieUserScore, setMovieUserScore] = useState(0);
 
   const [backLinkHref, setBackLinkHref] = useState('');
 
   useEffect(() => {
-    console.log('setBackLinkHref');
     setBackLinkHref(location.state?.from ?? '/');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieId]);
-
-  // const releaseDate = movieDetails.release_date;
-  // // const releaseDateYear = releaseDate.substring(0, 4);
 
   const loadMovieDetails = async () => {
     setIsLoading(true);
     try {
       const response = await getMovieById(movieId);
-      // console.log('movie details response:', response.data)
       setMovieReleaseDate(response.release_date);
       setMovieTitle(response.title);
       setMovieOverview(response.overview);
@@ -72,54 +58,23 @@ function MovieDetails() {
       </div>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <>
-          <StyledMovieCard>
-            <StyledMovieThumb src={moviePoster} alt="movieTitle" />
-            <StyledMovieDetails>
-              <h2>
-                {movieTitle} ({movieReleaseDate})
-              </h2>
-              <p>User Score: {MovieUserScore}</p>
-              <div>
-                <h3>Overview</h3>
-                <p>{movieOverview}</p>
-              </div>
-              <div>
-                <h3>Genres</h3>
-                <StyledGenresList>
-                  {movieGenres.map(genre => {
-                    return <li key={genre.id}> {genre.name}</li>;
-                  })}
-                </StyledGenresList>
-              </div>
-            </StyledMovieDetails>
-          </StyledMovieCard>
+          <MovieCard
+            moviePoster={moviePoster}
+            movieTitle={movieTitle}
+            movieReleaseDate={movieReleaseDate}
+            MovieUserScore={MovieUserScore}
+            movieOverview={movieOverview}
+            movieGenres={movieGenres}
+          />
           <hr />
-          <StyledInfo>
-            <p>Additional information</p>
-            <StyledList>
-              <li>
-                <Link to="cast">Cast</Link>
-              </li>
-              <li>
-                <Link to="reviews">Reviews</Link>
-              </li>
-            </StyledList>
-          </StyledInfo>
+          <AdditionalInfo />
           <hr />
-          <section>
-            <Suspense
-              fallback={
-                <div>
-                  <p>Loading subpage...</p>
-                </div>
-              }
-            >
-              <Outlet />
-            </Suspense>
-          </section>
+          <Suspense fallback={<Loading text={'subpage'} />}>
+            <Outlet />
+          </Suspense>
         </>
       )}
     </>

@@ -8,23 +8,16 @@ import {
 } from './AppTemplate.styled';
 import Nav from './Nav/Nav';
 import Footer from './Footer/Footer';
+import Loading from 'components/Loading/Loading';
 
 function AppTemplate() {
   return (
     <StyledApp>
-      <header>
-        <Nav />
-      </header>
+      <Nav />
       <StyledMain>
         <StyledContainer>
           <StyledSection>
-            <Suspense
-              fallback={
-                <div>
-                  <p>Loading page...</p>
-                </div>
-              }
-            >
+            <Suspense fallback={<Loading />}>
               <Outlet />
             </Suspense>
           </StyledSection>

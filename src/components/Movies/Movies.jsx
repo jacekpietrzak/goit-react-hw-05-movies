@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useLocation, Link, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getMovie } from 'Services/Api';
+import Searchbar from 'components/Searchbar/Searchbar';
+import MovieList from 'components/MovieList/MovieList';
+import Loading from 'components/Loading/Loading';
 
 function Movies() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +32,11 @@ function Movies() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    loadMovie();
+    if (movieName !== null) {
+      loadMovie();
+    } else {
+      alert('type something');
+    }
   };
 
   const updateQueryString = query => {
@@ -46,24 +53,16 @@ function Movies() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={inputValue} onChange={handleInputChange} />
-        <button type="submit">Search</button>
-      </form>
+      <Searchbar
+        handleSubmit={handleSubmit}
+        handleInputChange={handleInputChange}
+        inputValue={inputValue}
+      />
+
       {isLoading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
-        <ul>
-          {movies.map(movie => {
-            return (
-              <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-                  {movie.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <MovieList movies={movies} location={location} />
       )}
     </>
   );

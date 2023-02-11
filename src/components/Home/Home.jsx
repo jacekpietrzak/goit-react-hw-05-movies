@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { fetchMovies } from 'Services/Api';
+import MovieList from 'components/MovieList/MovieList';
+import Loading from 'components/Loading/Loading';
 
 function Home() {
   const queryType = 'trending';
@@ -14,7 +16,6 @@ function Home() {
     setIsLoading(true);
     try {
       const response = await fetchMovies(queryType, mediaType, timeWindow);
-      // console.log('response from home:', response);
       setMovies(response.results);
     } catch (error) {
     } finally {
@@ -26,25 +27,13 @@ function Home() {
     loadMovies();
   }, []);
 
-  // console.log('movies from home:', movies);
-
   return (
     <>
       <h2>Trending today</h2>
       {isLoading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
-        <ul>
-          {movies.map(movie => {
-            return (
-              <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`} state={{ from: location }}>
-                  {movie.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <MovieList movies={movies} location={location} />
       )}
     </>
   );

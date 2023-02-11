@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieReviewsById } from 'Services/Api';
-import { StyledUl, StyledLi } from './Reviews.styled';
 import { StyledSection } from 'components/AppTemplate/AppTemplate.styled';
+import ReviewsList from 'components/ReviewsList/ReviewsList';
+import Loading from 'components/Loading/Loading';
 
 function Reviews() {
   const { movieId } = useParams();
@@ -29,22 +30,13 @@ function Reviews() {
   return (
     <StyledSection>
       {isLoading ? (
-        <div>Loading...</div>
+        <Loading text={'reviews'} />
       ) : (
         <div>
           {reviews.length === 0 ? (
             <p>We don't have any reviews for this movie</p>
           ) : (
-            <StyledUl>
-              {reviews.map(review => {
-                return (
-                  <StyledLi key={review.id}>
-                    <h3>Author: {review.author} </h3>
-                    <p>{review.content}</p>
-                  </StyledLi>
-                );
-              })}
-            </StyledUl>
+            <ReviewsList reviews={reviews} />
           )}
         </div>
       )}
