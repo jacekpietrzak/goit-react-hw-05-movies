@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieReviewsById } from 'Services/Api';
-import { StyledSection } from 'components/AppTemplate/AppTemplate.styled';
+import { StyledSection } from 'Layouts/AppTemplate/AppTemplate.styled';
 import ReviewsList from 'components/ReviewsList/ReviewsList';
 import Loading from 'components/Loading/Loading';
 
@@ -14,7 +14,6 @@ function Reviews() {
     setIsLoading(true);
     try {
       const response = await getMovieReviewsById(movieId);
-      // console.log(response);
       setReviews(response.data.results);
     } catch (error) {
     } finally {

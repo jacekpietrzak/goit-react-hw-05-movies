@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieCreditsById } from 'Services/Api';
-import { StyledSection } from 'components/AppTemplate/AppTemplate.styled';
+import { StyledSection } from 'Layouts/AppTemplate/AppTemplate.styled';
 import CastList from 'components/CastList/CastList';
 import Loading from 'components/Loading/Loading';
 
